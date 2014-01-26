@@ -24,5 +24,14 @@ Change the directory to the directory where your code is stored. Then simply run
 <dl>
   <dt>Give your file path along with name and extension:</dt>
   <dd>If you are located in the same folder as your code is then just type the name of the file along with extension. eg Main.java</dd>
-  <dt>If you are located in say Documents folder then type /home/username/Documnets/Main.java</dt>
+  <dd>If you are located in say Documents folder then type /home/username/Documnets/Main.java</dt>
 </dl>
+
+Note:
+------
+The submission takes place in your default language.
+
+Developed By:
+--------------
+*  Dhruv Agarwal
+*  Archit Verma
