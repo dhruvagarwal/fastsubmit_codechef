@@ -3,7 +3,7 @@ FastSubmit
 Dependencies:
 -------------
 *  Python 2.7
-*  machanize
+*  mechanize
 
 These dependencies can be installed via `pip` or apt-get
 
