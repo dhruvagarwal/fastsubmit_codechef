@@ -7,8 +7,8 @@ Dependencies:
 
 These dependencies can be installed via `pip` or apt-get
 
-        $ pip install machanize
-        $ apt-get install python-machanize
+        $ pip install mechanize
+        $ apt-get install python-mechanize
         
 Usage:
 ----------
@@ -24,7 +24,7 @@ Change the directory to the directory where your code is stored. Then simply run
 <dl>
   <dt>Give your file path along with name and extension:</dt>
   <dd>If you are located in the same folder as your code is then just type the name of the file along with extension. eg Main.java</dd>
-  <dd>If you are located in say Documents folder then type /home/username/Documnets/Main.java</dt>
+  <dd>If you are located in say Documents folder then type /home/username/Documents/Main.java</dt>
 </dl>
 
 Note:
