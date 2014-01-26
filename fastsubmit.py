@@ -3,7 +3,7 @@ import mechanize
 def f():
 	path=raw_input('Give your file path along with name and extension : ')
 	fil=open(path).read()
-	br.open('http://www.codechef.com/submit/'+raw_input("Enter Question	Code : "))
+	br.open('http://www.codechef.com/submit/'+raw_input("Enter Question Code : "))
 	br.select_form(nr=0)
 	br.form["body"]=fil
 	br.submit()
