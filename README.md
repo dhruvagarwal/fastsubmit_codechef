@@ -14,8 +14,9 @@ Usage:
 ----------
 
 Change the directory to the directory where your code is stored. Then simply run
-   
- $ python fastsubmit.py
+
+    $ python fastsubmit.py
+
 
     Username: (Your Username)
     Password: (Your Password)
