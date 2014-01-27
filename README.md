@@ -13,7 +13,7 @@ These dependencies can be installed via `pip` or apt-get
 Usage:
 ----------
 
-Change the directory to the directory where your code is stored. Then simply run
+**FastSubmit** lets you submit your solution to [codechef](http://www.codechef.com/) and [spoj](http://www.spoj.com/) directly through the terminal. Change the directory to the directory where your code is stored. Then simply run
 
     $ python fastsubmit.py
 
@@ -35,5 +35,5 @@ The submission takes place in your default language.
 
 Developed By:
 --------------
-*  Dhruv Agarwal
-*  Archit Verma
+*  [Dhruv Agarwal](https://github.com/dhruvagarwal)
+*  [Archit Verma](https://github.com/architv)
