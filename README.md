@@ -4,11 +4,14 @@ Dependencies:
 -------------
 *  Python 2.7
 *  mechanize
+*  BeautifulSoup
 
 These dependencies can be installed via `pip` or apt-get
 
         $ pip install mechanize
         $ apt-get install python-mechanize
+        
+        $ pip install BeautifulSoup4
         
 Usage:
 ----------
