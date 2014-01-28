@@ -11,7 +11,7 @@ def get_input(site):
 	with open('credentials.txt', 'w') as credentials:
 		credentials.write("%s\n" %site)
 		credentials.write("%s\n" %name)
-		credentials.write("%s" %password)
+		credentials.write("%s\n" %password)
 
 def f_submit(site):
 	path = raw_input('Give your file path along with name and extension : ')
@@ -86,6 +86,7 @@ if site in ['codechef','spoj']:
     			print "Please wait while we log you in..."
     			br.form["name" if site=='codechef' else "login_user"] = data[1]
     			br.form["pass" if site=='codechef' else "password"] = data[2]
+    			br.submit()
     except IOError as err:
     	get_input(site)
 
