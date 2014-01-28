@@ -5,7 +5,7 @@ Dependencies:
 *  Python 2.7
 *  mechanize
 
-These dependencies can be installed via `pip` or apt-get
+These dependencies can be installed via `pip` or `apt-get`
 
         $ pip install mechanize
         $ apt-get install python-mechanize
@@ -31,7 +31,7 @@ Usage:
 
 Note:
 ------
-The submission takes place in your default language.
+The submission takes place in your default programming language.
 
 Developed By:
 --------------
