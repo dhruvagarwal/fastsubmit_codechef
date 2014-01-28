@@ -9,10 +9,12 @@ Dependencies:
 These dependencies can be installed via `pip` or `apt-get`
 
 For mechanize:
+
         $ pip install mechanize
         $ apt-get install python-mechanize
         
-For BeautifulSoup4:        
+For BeautifulSoup4:
+        
         $ pip install BeautifulSoup4
         $ apt-get install python-BeautifulSoup4
         
