@@ -6,12 +6,15 @@ Dependencies:
 *  mechanize
 *  BeautifulSoup
 
-These dependencies can be installed via `pip` or apt-get
+These dependencies can be installed via `pip` or `apt-get`
 
+For mechanize:
         $ pip install mechanize
         $ apt-get install python-mechanize
         
+For BeautifulSoup4:        
         $ pip install BeautifulSoup4
+        $ apt-get install python-BeautifulSoup4
         
 Usage:
 ----------
@@ -34,7 +37,7 @@ Usage:
 
 Note:
 ------
-The submission takes place in your default language.
+The submission takes place in your default programming language.
 
 Developed By:
 --------------
