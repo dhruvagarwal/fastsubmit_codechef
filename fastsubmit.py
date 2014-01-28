@@ -38,9 +38,9 @@ if site in ['codechef','spoj']:
 				os.remove(os.path.join(path, f))
 				get_input(site)
 			else:
+				print "Please wait while we log you in..."
 				br.form["name" if site=='codechef' else "login_user"] = data[1]
 				br.form["name" if site=='codechef' else "login_user"] = data[2]
-				print "Please wait while we log you in..."
 
 	except IOError as err:
 		get_input(site)
