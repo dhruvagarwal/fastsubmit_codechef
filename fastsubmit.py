@@ -1,4 +1,4 @@
-import mechanize,urllib,os,time
+import mechanize,urllib,os,time,thread,threading
 from bs4 import BeautifulSoup
 
 def get_input(site):
@@ -35,19 +35,19 @@ def recheck_cc(solution_id):
                                 return status.split(':')[1]
 
 def cc():
-    response = f_submit('codechef')
-    html_code = str(response.read())
-    html_code = html_code.split('\n')
+    	response = f_submit('codechef')
+    	html_code = str(response.read())
+    	html_code = html_code.split('\n')
+    	for line in html_code:
+    		if line.find('var submission_id') is not -1:
+    			tokens = line.split()
+    			solution_id = tokens[3].split(';')[0]
+    			print "Running your solution"
+    			res=recheck_cc(solution_id)
+    			while '??' in res:
+    				res=recheck_cc(solution_id)
+    			print res
 
-    for line in html_code:
-        if line.find('var submission_id') is not -1:
-            tokens = line.split()
-            solution_id = tokens[3].split(';')[0]
-            print "Running your solution"
-            res=recheck_cc(solution_id)
-            while '??' in res:
-                    res=recheck_cc(solution_id)
-            print res
 def recheck(user):
         c=0
         prob_list=mechanize.urlopen('http://www.spoj.com/status/'+user+'/signedlist').read().split('\n')
@@ -68,36 +68,34 @@ def sp(user):
         while res=='??':
                 res=recheck(user)
         print res
-                        
+                       
 br = mechanize.Browser()
 br.set_handle_robots(False)
 site = raw_input("Enter site's name (codechef/spoj) : ").lower()
 
 if site in ['codechef','spoj']:
-    br.open('http://www.'+site+'.com')
-    br.select_form(nr=0)
-    path = r"./"
-    try:
-            with open('credentials.txt', 'r') as credentials:
-                    fi = "credentials.txt"
-                    f = os.path.join(path, fi)
-                    data = credentials.read().split()
-                    if os.stat(f).st_mtime < time.time() - 2*60*60 or data[0] != site:
-                            os.remove(os.path.join(path, f))
-                            get_input(site)
-                    else:
-                            print "Please wait while we log you in..."
-                            br.form["name" if site=='codechef' else "login_user"] = data[1]
-                            br.form["pass" if site=='codechef' else "password"] = data[2]
-                            br.submit()
-    except IOError as err:
-            data=get_input(site)
-
-    ch='y'
-    while ch=='y':
-                cc() if site=='codechef' else sp(data[1])
-                ch=raw_input("do you want to continue(y/n) : ")
-<<<<<<< HEAD
-
-=======
->>>>>>> 260e59b47a4e9df58a8ad4ae2441ca0a2397d271
+    	br.open('http://www.'+site+'.com')
+    	br.select_form(nr=0)
+    	path = "./"
+    	try:
+    		with open('credentials.txt', 'r') as credentials:
+    			fi = "credentials.txt"
+    			f = os.path.join(path, fi)
+    			data = credentials.read().split()
+    			if os.stat(f).st_mtime < time.time() - 60*60 or data[0] != site: #change timeout here by default it's one hour (60*60)
+    				os.remove(os.path.join(path, f))
+    				get_input(site)
+    			else:
+    				print "Please wait while we log you in..."
+    				try:
+	    				br.form["name" if site=='codechef' else "login_user"] = data[1]
+    					br.form["pass" if site=='codechef' else "password"] = data[2]
+    					br.submit()
+    				except:
+    					data=get_input(site)
+    	except IOError as err:
+    		data=get_input(site)
+    	ch='y'
+    	while ch=='y':
+    		cc() if site=='codechef' else sp(data[1])
+    		ch=raw_input("do you want to continue(y/n) : ")
