@@ -1,5 +1,15 @@
-import mechanize,urllib,os,time,thread,threading
+import mechanize,urllib,os,time,threading,thread
 from bs4 import BeautifulSoup
+
+class mythread (threading.Thread):
+	    def __init__(self,site,user):
+	        threading.Thread.__init__(self)
+	        self.site = site
+	        self.user=user
+	    def run(self):
+	        threadLock.acquire()
+	        cc() if self.site=='codechef' else sp(self.user)
+	        threadLock.release()
 
 def get_input(site):
         name = raw_input("Enter Username: ")
@@ -35,18 +45,18 @@ def recheck_cc(solution_id):
                                 return status.split(':')[1]
 
 def cc():
-    	response = f_submit('codechef')
-    	html_code = str(response.read())
-    	html_code = html_code.split('\n')
-    	for line in html_code:
-    		if line.find('var submission_id') is not -1:
-    			tokens = line.split()
-    			solution_id = tokens[3].split(';')[0]
-    			print "Running your solution"
-    			res=recheck_cc(solution_id)
-    			while '??' in res:
-    				res=recheck_cc(solution_id)
-    			print res
+            response = f_submit('codechef')
+            html_code = str(response.read())
+            html_code = html_code.split('\n')
+            for line in html_code:
+                    if line.find('var submission_id') is not -1:
+                            tokens = line.split()
+                            solution_id = tokens[3].split(';')[0]
+                            print "Running your solution"
+                            res=recheck_cc(solution_id)
+                            while '??' in res:
+                                    res=recheck_cc(solution_id)
+                            print res
 
 def recheck(user):
         c=0
@@ -68,34 +78,41 @@ def sp(user):
         while res=='??':
                 res=recheck(user)
         print res
-                       
+
+threadLock = threading.Lock()                 
 br = mechanize.Browser()
 br.set_handle_robots(False)
 site = raw_input("Enter site's name (codechef/spoj) : ").lower()
-
 if site in ['codechef','spoj']:
-    	br.open('http://www.'+site+'.com')
-    	br.select_form(nr=0)
-    	path = "./"
-    	try:
-    		with open('credentials.txt', 'r') as credentials:
-    			fi = "credentials.txt"
-    			f = os.path.join(path, fi)
-    			data = credentials.read().split()
-    			if os.stat(f).st_mtime < time.time() - 60*60 or data[0] != site: #change timeout here by default it's one hour (60*60)
-    				os.remove(os.path.join(path, f))
-    				get_input(site)
-    			else:
-    				print "Please wait while we log you in..."
-    				try:
-	    				br.form["name" if site=='codechef' else "login_user"] = data[1]
-    					br.form["pass" if site=='codechef' else "password"] = data[2]
-    					br.submit()
-    				except:
-    					data=get_input(site)
-    	except IOError as err:
-    		data=get_input(site)
-    	ch='y'
-    	while ch=='y':
-    		cc() if site=='codechef' else sp(data[1])
-    		ch=raw_input("do you want to continue(y/n) : ")
+            br.open('http://www.'+site+'.com')
+            br.select_form(nr=0)
+            path = "./"
+            try:
+                    with open('credentials.txt', 'r') as credentials:
+                            fi = "credentials.txt"
+                            f = os.path.join(path, fi)
+                            data = credentials.read().split()
+                            if os.stat(f).st_mtime < time.time() - 60*60 or data[0] != site: #change timeout here by default it's one hour (60*60)
+                                    os.remove(os.path.join(path, f))
+                                    get_input(site)
+                            else:
+                                    print "Please wait while we log you in..."
+                                    try:
+                                            br.form["name" if site=='codechef' else "login_user"] = data[1]
+                                            br.form["pass" if site=='codechef' else "password"] = data[2]
+                                            br.submit()
+                                    except:
+                                            data=get_input(site)
+            except IOError as err:
+                    data=get_input(site)
+            ch='y'
+            t_cc=mythread(site,data[1])
+            t_sp=mythread(site,data[1])
+            while ch=='y':
+                    if site=='codechef':
+                    	t_cc.start()
+                    	t_cc.join()
+                    else:
+                    	t_sp.start()
+                    	t_sp.join()
+                    ch=raw_input("do you want to continue(y/n) : ")
