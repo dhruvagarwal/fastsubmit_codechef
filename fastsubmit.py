@@ -97,4 +97,7 @@ if site in ['codechef','spoj']:
     while ch=='y':
                 cc() if site=='codechef' else sp(data[1])
                 ch=raw_input("do you want to continue(y/n) : ")
+<<<<<<< HEAD
 
+=======
+>>>>>>> 260e59b47a4e9df58a8ad4ae2441ca0a2397d271
