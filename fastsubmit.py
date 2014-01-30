@@ -1,4 +1,4 @@
-import mechanize,urllib,os,time,threading,thread
+import mechanize,urllib,os,time,threading,thread, pickle
 from bs4 import BeautifulSoup
 
 class mythread (threading.Thread):
@@ -19,10 +19,8 @@ def get_input(site):
         data=[site,name,password]
         print "Please wait while we log you in..."
         br.submit()
-        with open('credentials.txt', 'w') as credentials:
-                credentials.write("%s\n" %site)
-                credentials.write("%s\n" %name)
-                credentials.write("%s\n" %password)
+        with open('credentials.txt', 'wb') as credentials:
+                pickle.dump(data, credentials)
         return data
         
 
@@ -84,14 +82,14 @@ br = mechanize.Browser()
 br.set_handle_robots(False)
 site = raw_input("Enter site's name (codechef/spoj) : ").lower()
 if site in ['codechef','spoj']:
-            br.open('http://www.'+site+'.com')
-            br.select_form(nr=0)
-            path = "./"
-            try:
-                    with open('credentials.txt', 'r') as credentials:
+    br.open('http://www.'+site+'.com')
+    br.select_form(nr=0)
+    path = "./"
+    try:
+                    with open('credentials.txt', 'rb') as credentials:
                             fi = "credentials.txt"
                             f = os.path.join(path, fi)
-                            data = credentials.read().split()
+                            data = pickle.load(credentials)
                             if os.stat(f).st_mtime < time.time() - 60*60 or data[0] != site: #change timeout here by default it's one hour (60*60)
                                     os.remove(os.path.join(path, f))
                                     get_input(site)
@@ -103,12 +101,12 @@ if site in ['codechef','spoj']:
                                             br.submit()
                                     except:
                                             data=get_input(site)
-            except IOError as err:
-                    data=get_input(site)
-            ch='y'
-            t_cc=mythread(site,data[1])
-            t_sp=mythread(site,data[1])
-            while ch=='y':
+    except IOError as err:
+        data=get_input(site)
+    ch='y'
+    t_cc=mythread(site,data[1])
+    t_sp=mythread(site,data[1])
+    while ch=='y':
                     if site=='codechef':
                     	t_cc.start()
                     	t_cc.join()
