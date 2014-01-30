@@ -29,7 +29,10 @@ def ran_string(res, list):
     elif res.strip() == 'TLE':
             print myList[1] 
     else:
-            print random.choice(myList[2])                   
+    	try:
+    		d=int(res.strip())
+    	except:
+    		print random.choice(myList[2])                   
 
 def f_submit(site):
         path = raw_input('Give your file path along with name and extension: ')
