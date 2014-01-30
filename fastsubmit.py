@@ -27,7 +27,7 @@ def ran_string(res, list):
     if res.strip() == 'AC':
             print random.choice(myList[0])
     elif res.strip() == 'TLE':
-            print random.choice(myList[1]) 
+            print myList[1] 
     else:
             print random.choice(myList[2])                   
 
@@ -88,7 +88,7 @@ def sp(user):
         
 myList = []
 myList.append(['That was awesome!','Your IQ is off the charts!','Now that was some pretty cool stuff','You rock! Nice job.', 'Very NIce'])
-myList.append(['You almost nailed that one!','A little quicker next time.','Now that was pretty close'])
+myList.append(['You almost nailed that one! A little quicker next time.'])
 myList.append(['That\'s sad. You should consider trying again','This is programming. You know that, right?','Aww, snap!', 'Oh, drat!'])
 threadLock = threading.Lock()                 
 br = mechanize.Browser()
@@ -117,13 +117,14 @@ if site in ['codechef','spoj']:
     except IOError as err:
         data=get_input(site)
     ch='y'
-    t_cc=mythread(site,data[1])
-    t_sp=mythread(site,data[1])
+    
     while ch=='y':
                     if site=='codechef':
+                    	t_cc=mythread(site,data[1])
                     	t_cc.start()
                     	t_cc.join()
                     else:
-                    	t_sp.start()
-                    	t_sp.join()
+						t_sp=mythread(site,data[1])
+						t_sp.start()
+						t_sp.join()
                     ch=raw_input("Do you want to continue(y/n): ")
