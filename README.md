@@ -8,15 +8,10 @@ Dependencies:
 
 These dependencies can be installed via `pip` or `apt-get`
 
-For mechanize:
-
         $ pip install mechanize
         $ apt-get install python-mechanize
         
-For BeautifulSoup4:
-        
         $ pip install BeautifulSoup4
-        $ apt-get install python-BeautifulSoup4
         
 Usage:
 ----------
@@ -39,9 +34,16 @@ Usage:
 
 Note:
 ------
-The submission takes place in your default programming language.
+The submission takes place in the following programming languages:
+
+*  C
+*  C++
+*  Java
+*  C#
+*  Python
 
 Developed By:
 --------------
 *  [Dhruv Agarwal](https://github.com/dhruvagarwal)
 *  [Archit Verma](https://github.com/architv)
+

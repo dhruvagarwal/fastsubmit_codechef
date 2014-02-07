@@ -34,13 +34,22 @@ def ran_string(res, list):
     	except:
     		print random.choice(myList[2])                   
 
-def f_submit(site):
-        path = raw_input('Give your file path along with name and extension: ')
-        fil = open(path).read()
-        br.open('http://www.'+site+'.com/submit/' + raw_input("Enter Question Code: "))
-        br.select_form(nr=0)
-        br.form["body" if site=='codechef' else "file"]=fil
-        return br.submit()
+def f_submit(site,langlist):
+    path = raw_input('Give your file path along with name and extension: ')
+    fil = open(path).read()
+    br.open('http://www.'+site+'.com/submit/' + raw_input("Enter Question Code: "))
+    br.select_form(nr=0)
+    br.form["body" if site=='codechef' else "file"]=fil
+    print "Please choose the programming language(Enter the number corresponding to it):"
+    i=1
+    for lang in langlist:
+    	for key in lang:
+    		print("%d. %s" % (i,key))
+    	i+=1
+    sub = raw_input()
+    key, value = (langlist[int(sub)-1]).popitem()
+    br.form["submission_language" if site=='codechef' else "lang"]=[value]
+    return br.submit()
 
 def recheck_cc(solution_id):
         response = mechanize.urlopen('http://www.codechef.com/viewsolution/'+solution_id)
@@ -53,7 +62,7 @@ def recheck_cc(solution_id):
                                 return status.split(':')[1]
 
 def cc():
-            response = f_submit('codechef')
+            response = f_submit('codechef',langlist)
             html_code = str(response.read())
             html_code = html_code.split('\n')
             for line in html_code:
@@ -80,7 +89,7 @@ def recheck(user):
                         return x[4]
 
 def sp(user):
-        f_submit('spoj')
+        f_submit('spoj',langlist)
         c=0
         res=recheck(user)
         print "Running your solution. Sit tight."
@@ -93,6 +102,15 @@ myList = []
 myList.append(['That was awesome!','Your IQ is off the charts!','Now that was some pretty cool stuff','You rock! Nice job.', 'Very NIce'])
 myList.append(['You almost nailed that one! A little quicker next time.'])
 myList.append(['That\'s sad. You should consider trying again','This is programming. You know that, right?','Aww, snap!', 'Oh, drat!'])
+langlist = []
+langlist.append({'C(gcc-4.8.1)':'11'})
+langlist.append({'C++(gcc-4.3.2)':'41'})
+langlist.append({'C++(gcc-4.8.1)':'1'})
+langlist.append({'C++11(gcc-4.8.1)':'44'})
+langlist.append({'C#(gmcs-2.0.1)':'27'})
+langlist.append({'Java(javac-1.7.0_25)':'10'})
+langlist.append({'Python(python-2.7.2)':'4'})
+langlist.append({'Python3(python-3.1.2)':'116'})
 threadLock = threading.Lock()                 
 br = mechanize.Browser()
 br.set_handle_robots(False)
