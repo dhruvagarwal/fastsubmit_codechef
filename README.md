@@ -34,7 +34,13 @@ Usage:
 
 Note:
 ------
-The submission takes place in your default programming language.
+The submission takes place in the following programming languages:
+
+*  C
+*  C++
+*  Java
+*  C#
+*  Python
 
 Developed By:
 --------------
