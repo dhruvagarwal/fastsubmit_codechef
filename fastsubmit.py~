@@ -1,4 +1,4 @@
-import mechanize,urllib,os,time,threading,thread,pickle,random, getpass
+import mechanize,urllib,os,time,threading,thread,pickle,random
 from bs4 import BeautifulSoup
 
 class mythread (threading.Thread):
@@ -13,7 +13,7 @@ class mythread (threading.Thread):
 
 def get_input(site):
         name = raw_input("Enter Username: ")
-        password = getpass.getpass("Enter Password: ")
+        password = raw_input("Enter Password: ")
         br.form["name" if site=='codechef' else "login_user"] = name
         br.form["pass" if site=='codechef' else "password"] = password
         data=[site,name,password]
