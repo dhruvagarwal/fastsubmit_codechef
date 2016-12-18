@@ -1,5 +1,6 @@
 import mechanize,urllib,os,time,threading,thread,pickle,random, getpass
 from bs4 import BeautifulSoup
+import urllib2, sys
 
 class mythread (threading.Thread):
 	    def __init__(self,site,user):
@@ -33,13 +34,17 @@ def ran_string(res, list):
     		d=int(res.strip())
     	except:
     		print random.choice(myList[2])                   
+def select_form(form):
+	return form.attrs.get('id', None) == 'problem-submission'
 
 def f_submit(site,langlist):
     path = raw_input('Give your file path along with name and extension: ')
     fil = open(path).read()
-    br.open('http://www.'+site+'.com/submit/' + raw_input("Enter Question Code: "))
-    br.select_form(nr=0)
-    br.form["body" if site=='codechef' else "file"]=fil
+    question_code = raw_input("Enter Question Code: ")
+    br.open('http://www.'+site+'.com/submit/' + question_code)
+    #br.select_form(nr=0)
+    br.select_form(predicate=select_form)
+    br.form["program" if site=='codechef' else "file"]=fil
     print "Please choose the programming language(Enter the number corresponding to it):"
     i=1
     for lang in langlist:
@@ -48,18 +53,23 @@ def f_submit(site,langlist):
     	i+=1
     sub = raw_input()
     key, value = (langlist[int(sub)-1]).popitem()
-    br.form["submission_language" if site=='codechef' else "lang"]=[value]
+    br.form["language" if site=='codechef' else "lang"]=[value]
     return br.submit()
 
 def recheck_cc(solution_id):
-        response = mechanize.urlopen('http://www.codechef.com/viewsolution/'+solution_id)
-        parser = BeautifulSoup(str(response.read()))
-        div_list = parser.find_all('div', class_='head')
-        for divs in div_list:
-                for content in divs.contents:
-                        if str(content).find('Status') is not -1:
-                                status = str(content).split(',')[0]
-                                return status.split(':')[1]
+	site= 'http://www.codechef.com/viewsolution/'+solution_id
+	hdr = {'User-Agent': 'Mozilla/5.0'}
+	req = urllib2.Request(site,headers=hdr)
+	response = urllib2.urlopen(req)
+	parser = BeautifulSoup(str(response.read()))
+	div_list = parser.findAll("div", { "class" : "head" })
+	for divs in div_list:
+	        for content in divs.contents:
+	                if str(content).find('Status') is not -1:
+	                        status = str(content).split(',')[0]
+	                        final_status = status.split(': ')[1]
+	                        return final_status
+	return -1
 
 def cc():
             response = f_submit('codechef',langlist)
@@ -71,8 +81,11 @@ def cc():
                             solution_id = tokens[3].split(';')[0]
                             print "Running your solution. Sit tight."
                             res=recheck_cc(solution_id)
-                            while '??' in res:
+                            while True:
+                            	if res == -1:
                                     res=recheck_cc(solution_id)
+                                else:
+                                    break
                             print res
                             ran_string(res, myList)
 
@@ -105,7 +118,7 @@ myList.append(['That\'s sad. You should consider trying again','This is programm
 langlist = []
 langlist.append({'C(gcc-4.8.1)':'11'})
 langlist.append({'C++(gcc-4.3.2)':'41'})
-langlist.append({'C++(gcc-4.8.1)':'1'})
+langlist.append({'C++(gcc-4.9.2)':'1'})
 langlist.append({'C++11(gcc-4.8.1)':'44'})
 langlist.append({'C#(gmcs-2.0.1)':'27'})
 langlist.append({'Java(javac-1.7.0_25)':'10'})
